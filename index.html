@@ -122,6 +122,30 @@
             margin: 20px 0;
             font-size: 1.2rem;
         }
+
+        .ending-section {
+            text-align: center;
+            margin-top: 20vh;
+        }
+
+        .ending-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .ending-section button {
+            font-size: 1.2rem;
+            background: none;
+            border: 1px solid #1a1a1a;
+            color: #1a1a1a;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .ending-section button:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -151,12 +175,18 @@
                 <div class="grid-item" onclick="reveal(8)"></div>
             </div>
         </div>
+
+        <div class="ending-section" style="display: none;">
+            <h2 id="winner-message"></h2>
+            <p>Thanks for playing!</p>
+            <button onclick="returnHome()">Return Home</button>
+        </div>
     </main>
 
     <div class="footer">
-        <span>Portfolio:01</span>
+        <span>Portfolio</span>
         <span>MEC Thrikkakara</span>
-        <span>2024</span>
+        <span>2025</span>
     </div>
 
     <script>
@@ -178,7 +208,7 @@
             "JavaScript",
             "Python",
             "C",
-            "MongoDB",
+            "SQL",
             "Git & GitHub",
             "FL Studio",
             "Flask (Beginner)",
@@ -195,7 +225,7 @@
             if (gameBoard[index] === '' && gameActive) {
                 const cell = document.getElementsByClassName('grid-item')[index];
                 gameBoard[index] = currentPlayer;
-                
+
                 // Display info based on current player and info set
                 const infoSet = currentSet ? setOneInfo : setTwoInfo;
                 cell.innerText = infoSet[index];
@@ -208,6 +238,7 @@
                         document.querySelector('.info-text').innerText = 
                             `${currentPlayer.toUpperCase()} wins the match!`;
                         gameActive = false;
+                        showEndingSection(`${currentPlayer.toUpperCase()} wins the match!`);
                     } else {
                         setTimeout(resetRound, 1500);
                     }
@@ -263,7 +294,20 @@
             document.querySelector('.start-button').style.display = 'none';
             resetRound();
         }
+
+        function showEndingSection(message) {
+            document.querySelector('.game-container').classList.remove('active');
+            document.querySelector('.ending-section').style.display = 'block';
+            document.getElementById('winner-message').innerText = message;
+        }
+
+        function returnHome() {
+            document.querySelector('.ending-section').style.display = 'none';
+            document.querySelector('.start-button').style.display = 'block';
+            document.querySelector('.game-container').classList.remove('active');
+            scores = { black: 0, white: 0, draws: 0 };
+            updateScoreBoard();
+        }
     </script>
 </body>
 </html>
-
